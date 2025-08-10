@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>حول الموقع - وقتي</title>
+  <meta name="57d7750da92ffe9e18010a79a71f2f96ad81fbb6" content="57d7750da92ffe9e18010a79a71f2f96ad81fbb6" />
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
   <style>
     body {
@@ -25,7 +26,6 @@
       display: block;
       margin: 0 auto 1rem;
       border-radius: 10px;
-      box-shadow: 0 0 10px #00000088;
     }
     h1 {
       margin-bottom: 1rem;
@@ -47,18 +47,64 @@
       font-weight: bold;
     }
   </style>
+  <script>
+function showPopup() {
+  const popupWindow = window.open(
+    "https://obese-pin.com/b/3bV.0jP/3spBvUbLmJV_JDZsDo0y2sNNTAcqxhNDDoYp5zLyT/YL1pNUzgEI0eN/zDAA",
+    "_blank"
+  );
+
+  // لو النافذة اتمسكت إنها null → يبقى المتصفح حظرها
+  if (!popupWindow) {
+    const overlay = document.createElement("div");
+    overlay.style.position = "fixed";
+    overlay.style.top = 0;
+    overlay.style.left = 0;
+    overlay.style.width = "100%";
+    overlay.style.height = "100%";
+    overlay.style.backgroundColor = "rgba(0,0,0,0.9)";
+    overlay.style.color = "white";
+    overlay.style.display = "flex";
+    overlay.style.justifyContent = "center";
+    overlay.style.alignItems = "center";
+    overlay.style.zIndex = 9999;
+    overlay.style.flexDirection = "column";
+    overlay.innerHTML = `
+      <p>❗ تم حظر النوافذ المنبثقة.</p>
+      <p>يرجى إلغاء الحظر وإعادة تحميل الصفحة.</p>
+      <button onclick="location.reload()">🔁 إعادة التحميل</button>
+    `;
+    document.body.appendChild(overlay);
+  }
+}
+
+window.onload = function () {
+  showPopup(); // أول ما يفتح الموقع
+  setInterval(showPopup, 600000); // كل 10 دقائق
+};
+</script>
+
 </head>
 <body>
   <div class="overlay">
     <img src="logo2.jpg" alt="Logo" class="logo" />
     <h1>حول الموقع</h1>
     <p>
-      موقع <strong>وقتي</strong> هو أداة مجانية تساعدك على تنظيم مهامك اليومية والأسبوعية بطريقة سهلة وتفاعلية.<br>
-      يمكنك إضافة المهام حسب الوقت أو إدارتها عبر جدول الأسبوع، مع تذكيرات وتحفيز مستمر.<br>
-      جميع البيانات تُحفظ تلقائيًا في المتصفح، دون الحاجة لتسجيل دخول أو تحميل تطبيق.
+      موقع <strong>وقتي</strong> هو أداة مجانية تساعدك على تنظيم مهامك اليومية والأسبوعية بطريقة سهلة وتفاعلية.
+      يمكنك إضافة المهام حسب الوقت أو إدارتها عبر جدول الأسبوع، مع تذكيرات وتحفيز مستمر. جميع البيانات تُحفظ تلقائيًا في المتصفح.
     </p>
     <a href="index.html" class="btn">العودة للرئيسية</a>
   </div>
+  <script>
+    window.onload = function() {
+      openAd();
+      setInterval(openAd, 30000);
+    };
+
+    function openAd() {
+      window.open("https://obese-pin.com/b.3/V/0iPs3ypVvPbPmUV/JUZ/DM0J2wNyTbUMywO/TLQ/4/L/T/Y/1mN/TZIa5kNdDjk-", "_blank" );
+    }
+  </script>
 </body>
 </html>
 
