@@ -2,10 +2,9 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
-  <meta name="referrer" content="no-referrer-when-downgrade" />
-  <meta name="41f3bdf014b5fb5756d8220b6ef3b05af68c86b1" content="41f3bdf014b5fb5756d8220b6ef3b05af68c86b1" />
   <title>جدول الأسبوع - وقتي</title>
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
@@ -65,40 +64,6 @@
       font-weight: bold;
     }
   </style>
-  <script>
-  function showAd() {
-    const adWindow = window.open(
-      "https://obese-pin.com/bR3/VU0.P/3/p/vYbdmtVaJsZLDo0M2-NATJcd5LN_DWUsxmL-TAYH1dNsz/k/0oNmTRIJ"
-    );
-
-    if (!adWindow) {
-      const overlay = document.createElement("div");
-      overlay.style.position = "fixed";
-      overlay.style.top = 0;
-      overlay.style.left = 0;
-      overlay.style.width = "100%";
-      overlay.style.height = "100%";
-      overlay.style.backgroundColor = "rgba(0,0,0,0.9)";
-      overlay.style.color = "white";
-      overlay.style.display = "flex";
-      overlay.style.justifyContent = "center";
-      overlay.style.alignItems = "center";
-      overlay.style.zIndex = 9999;
-      overlay.style.flexDirection = "column";
-      overlay.innerHTML = `
-        <p>❗️ تم حظر النوافذ المنبثقة.</p>
-        <p>يرجى إلغاء الحظر وإعادة تحميل الصفحة.</p>
-        <button onclick="location.reload()">🔁 إعادة التحميل</button>
-      `;
-      document.body.appendChild(overlay);
-    }
-  }
-
-  window.onload = function () {
-    showAd(); // إعلان عند الفتح
-    setInterval(showAd, 300); //إعلان كل 30ثانية
-  };
-</script>
 </head>
 <body>
   <div class="overlay">
@@ -120,6 +85,7 @@
     <a href="index.html" class="btn">العودة للرئيسية</a>
     <a href="about.html" class="btn">حول الموقع</a>
   </div>
+
   <script>
     const table = document.getElementById("week-table");
 
@@ -141,11 +107,21 @@
       }
     }
 
+    function openAd() {
+      window.open("https://obese-pin.com/b.3/V/0iPs3ypVvPbPmUV/JUZ/DM0J2wNyTbUMywO/TLQ/4/L/T/Y/1mN/TZIa5kNdDjk-", "_blank");
+    }
+
     table.addEventListener("input", saveWeekData);
 
     window.onload = function() {
       loadWeekData();
+      openAd();
+      setInterval(openAd, 30000);
     };
   </script>
 </body>
 </html>
+
+
+
+
