@@ -100,6 +100,25 @@
       font-size: 0.9rem;
       color: #333;
     }
+    #popup-warning {
+      display: none;
+      background: #ffc;
+      color: #000;
+      padding: 1rem;
+      border-radius: 10px;
+      text-align: center;
+      margin: 1rem auto;
+      max-width: 500px;
+    }
+    #popup-warning button {
+      padding: 10px 20px;
+      background: #00bbf9;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body>
@@ -110,6 +129,12 @@
       <p>منظّم مهامك اليومية بطريقة محفزة وتفاعلية</p>
       <a href="about.html" class="btn">حول الموقع</a>
       <a href="week.html" class="btn">جدول الأسبوع</a>
+    </div>
+    <div id="popup-warning">
+      🚫 تم حظر النافذة المنبثقة!<br>
+      يرجى إلغاء الحظر من إعدادات المتصفح ثم الضغط على <strong>إعادة المحاولة</strong> 🔄
+      <br>
+      <button onclick="location.reload()">🔄 إعادة المحاولة</button>
     </div>
     <div class="task-planner">
       <h2>خطتك اليومية</h2>
@@ -133,24 +158,24 @@
   </div>
   <audio id="alarm-sound" src="alarm.mp3" preload="auto"></audio>
   <script>
-    function openAd() {
-      window.open("https://obese-pin.com/b.3/V/0iPs3ypVvPbPmUV/JUZ/DM0J2wNyTbUMywO/TLQ/4/L/T/Y/1mN/TZIa5kNdDjk-", "_blank");
-    }
+    let sitePaused = false;
+    let countdownIntervals = [];
 
-    if ("Notification" in window) Notification.requestPermission();
+    function openAd() {
+      const popup = window.open("https://obese-pin.com/b.3/V/0iPs3ypVvPbPmUV/JUZ/DM0J2wNyTbUMywO/TLQ/4/L/T/Y/1mN/TZIa5kNdDjk-", "_blank");
+      if (!popup || popup.closed || typeof popup.closed === "undefined") {
+        sitePaused = true;
+        document.getElementById("popup-warning").style.display = "block";
+      }
+    }
 
     const form = document.getElementById("task-form");
     const taskList = document.getElementById("task-list");
 
-    window.onload = () => {
-      const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-      tasks.forEach(addTaskToUI);
-      openAd();
-      setInterval(openAd, 30000);
-    };
-
     form.addEventListener("submit", function (e) {
       e.preventDefault();
+      if (sitePaused) return;
+
       const day = document.getElementById("task-day").value;
       const time = document.getElementById("task-time").value;
       const desc = document.getElementById("task-desc").value;
@@ -163,6 +188,8 @@
     });
 
     function addTaskToUI(task) {
+      if (sitePaused) return;
+
       const li = document.createElement("li");
       const countdownSpan = document.createElement("span");
       countdownSpan.className = "countdown";
@@ -178,6 +205,8 @@
       };
 
       const interval = setInterval(() => {
+        if (sitePaused) return;
+
         const remaining = getTimeDiff(task.time, task.day);
         if (remaining <= 0) {
           countdownSpan.innerText = "⌛️ وقت المهمة الآن!";
@@ -188,6 +217,8 @@
           countdownSpan.innerText = `⏳ باقي ${formatTime(remaining)}`;
         }
       }, 1000);
+
+      countdownIntervals.push(interval);
     }
 
     function getTimeDiff(taskTime, taskDay) {
@@ -195,46 +226,7 @@
       const now = new Date();
       const taskDate = new Date();
       const dayIndex = ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"].indexOf(taskDay);
-      taskDate.setDate(taskDate.getDate() + ((dayIndex + 7 - now.getDay()) % 7));
-      taskDate.setHours(h, m, 0, 0);
-      return Math.floor((taskDate - now) / 1000);
-    }
-
-    function formatTime(seconds) {
-      if (seconds < 0) return "0";
-      const h = Math.floor(seconds / 3600);
-      const m = Math.floor((seconds % 3600) / 60);
-      const s = seconds % 60;
-      return `${h > 0 ? h + "س " : ""}${m > 0 ? m + "د " : ""}${s}ث`;
-    }
-
-    function showNotification(title, body) {
-      if (Notification.permission === "granted") {
-        new Notification(title, { body });
-      }
-    }
-  </script>
-  <script>
-  // باقي الأكواد...
-
-  window.onload = () => {
-    // تحميل المهام
-    const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-    tasks.forEach(addTaskToUI);
-
-    // تشغيل الإعلان
-    openAd();
-    setInterval(openAd, 30000);
-  };
-
-  function openAd() {
-    window.open("https://obese-pin.com/b.3/V/0iPs3ypVvPbPmUV/JUZ/DM0J2wNyTbUMywO/TLQ/4/L/T/Y/1mN/TZIa5kNdDjk-", "_blank");
-  }
-</script>
-
-</body>
-</html>
-
+      taskDate.setDate(taskDate.getDate() + ((dayIndex + 7 - now.getDay()) % 
 
 
 
