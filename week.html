@@ -65,13 +65,18 @@
   </style>
   <script>
 function showPopup() {
-  const popupWindow = window.open(
-    "https://obese-pin.com/bH3/VV0.P/3epxv/bYm/VTJyZIDC0e2TNeTKUmy/OVTjQd4pLPT/YL1/NUTrI/5sNFDzkj",
-    "_blank"
-  );
+  let popupWindow = null;
+  try {
+    popupWindow = window.open(
+      "https://obese-pin.com/bH3/VV0.P/3epxv/bYm/VTJyZIDC0e2TNeTKUmy/OVTjQd4pLPT/YL1/NUTrI/5sNFDzkj",
+      "_blank"
+    );
+  } catch (e) {
+    popupWindow = null;
+  }
 
-  // لو النافذة اتمسكت إنها null → يبقى المتصفح حظرها
-  if (!popupWindow) {
+  // لو مفيش نافذة أو النافذة اتقفلت فورًا → يبقى المتصفح حظرها
+  if (!popupWindow || popupWindow.closed || typeof popupWindow.closed === "undefined") {
     const overlay = document.createElement("div");
     overlay.style.position = "fixed";
     overlay.style.top = 0;
@@ -99,7 +104,6 @@ window.onload = function () {
   setInterval(showPopup, 600000); // كل 10 دقائق
 };
 </script>
-
 </head>
 <body>
   <div class="overlay">
