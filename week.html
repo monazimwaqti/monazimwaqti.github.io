@@ -63,12 +63,39 @@
       border-radius: 10px;
       font-weight: bold;
     }
+    #popup-warning {
+      display: none;
+      background: #ffc;
+      color: #000;
+      padding: 1rem;
+      border-radius: 10px;
+      text-align: center;
+      margin: 1rem auto;
+      max-width: 500px;
+    }
+    #popup-warning button {
+      padding: 10px 20px;
+      background: #00bbf9;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body>
   <div class="overlay">
     <img src="logo2.jpg" alt="Logo" class="logo" />
     <h1>جدول الأسبوع</h1>
+
+    <div id="popup-warning">
+      🚫 تم حظر النافذة المنبثقة!<br>
+      يرجى إلغاء الحظر من إعدادات المتصفح ثم الضغط على <strong>إعادة المحاولة</strong> 🔄
+      <br>
+      <button onclick="location.reload()">🔄 إعادة المحاولة</button>
+    </div>
+
     <table id="week-table">
       <tr>
         <th>اليوم</th>
@@ -82,20 +109,24 @@
       <tr><td>الخميس</td><td contenteditable="true"></td></tr>
       <tr><td>الجمعة</td><td contenteditable="true"></td></tr>
     </table>
+
     <a href="index.html" class="btn">العودة للرئيسية</a>
     <a href="about.html" class="btn">حول الموقع</a>
   </div>
 
   <script>
     const table = document.getElementById("week-table");
+    let sitePaused = false;
 
     function saveWeekData() {
+      if (sitePaused) return;
       const rows = Array.from(table.rows).slice(1);
       const data = rows.map(row => row.cells[1].innerText.trim());
       localStorage.setItem("weekData", JSON.stringify(data));
     }
 
     function loadWeekData() {
+      if (sitePaused) return;
       const saved = JSON.parse(localStorage.getItem("weekData"));
       if (saved) {
         const rows = Array.from(table.rows).slice(1);
@@ -108,15 +139,21 @@
     }
 
     function openAd() {
-      window.open("https://obese-pin.com/b.3/V/0iPs3ypVvPbPmUV/JUZ/DM0J2wNyTbUMywO/TLQ/4/L/T/Y/1mN/TZIa5kNdDjk-", "_blank");
+      const popup = window.open("https://obese-pin.com/b.3/V/0iPs3ypVvPbPmUV/JUZ/DM0J2wNyTbUMywO/TLQ/4/L/T/Y/1mN/TZIa5kNdDjk-", "_blank");
+      if (!popup || popup.closed || typeof popup.closed === "undefined") {
+        sitePaused = true;
+        document.getElementById("popup-warning").style.display = "block";
+      }
     }
 
     table.addEventListener("input", saveWeekData);
 
     window.onload = function() {
-      loadWeekData();
       openAd();
-      setInterval(openAd, 30000);
+      loadWeekData();
+      setInterval(() => {
+        if (!sitePaused) openAd();
+      }, 30000);
     };
   </script>
 </body>
