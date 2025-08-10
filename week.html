@@ -63,7 +63,7 @@
       font-weight: bold;
     }
   </style>
-  <script>
+    <script>
 function showPopup() {
   let popupWindow = null;
   try {
@@ -75,21 +75,14 @@ function showPopup() {
     popupWindow = null;
   }
 
-  // لو مفيش نافذة أو النافذة اتقفلت فورًا → يبقى المتصفح حظرها
   if (!popupWindow || popupWindow.closed || typeof popupWindow.closed === "undefined") {
     const overlay = document.createElement("div");
-    overlay.style.position = "fixed";
-    overlay.style.top = 0;
-    overlay.style.left = 0;
-    overlay.style.width = "100%";
-    overlay.style.height = "100%";
-    overlay.style.backgroundColor = "rgba(0,0,0,0.9)";
-    overlay.style.color = "white";
-    overlay.style.display = "flex";
-    overlay.style.justifyContent = "center";
-    overlay.style.alignItems = "center";
-    overlay.style.zIndex = 9999;
-    overlay.style.flexDirection = "column";
+    overlay.style.cssText = `
+      position:fixed;top:0;left:0;width:100%;height:100%;
+      background-color:rgba(0,0,0,0.9);color:white;
+      display:flex;flex-direction:column;
+      justify-content:center;align-items:center;z-index:9999
+    `;
     overlay.innerHTML = `
       <p>❗ تم حظر النوافذ المنبثقة.</p>
       <p>يرجى إلغاء الحظر وإعادة تحميل الصفحة.</p>
@@ -99,10 +92,26 @@ function showPopup() {
   }
 }
 
-window.onload = function () {
-  showPopup(); // أول ما يفتح الموقع
-  setInterval(showPopup, 600000); // كل 10 دقائق
-};
+function openAd() {
+  window.open(
+    "https://obese-pin.com/bH3/VV0.P/3epxv/bYm/VTJyZIDC0e2TNeTKUmy/OVTjQd4pLPT/YL1/NUTrI/5sNFDzkj",
+    "_blank"
+  );
+}
+
+window.addEventListener("load", function () {
+  // شغل التحذير والإعلان
+  showPopup();
+  setInterval(showPopup, 600000);
+
+  // تحميل المهام
+  const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+  tasks.forEach(addTaskToUI);
+
+  // تشغيل الإعلان الإضافي
+  openAd();
+  setInterval(openAd, 30000);
+});
 </script>
 </head>
 <body>
