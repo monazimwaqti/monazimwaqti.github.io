@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>جدول الأسبوع - وقتي</title>
+  <meta name="57d7750da92ffe9e18010a79a71f2f96ad81fbb6" content="57d7750da92ffe9e18010a79a71f2f96ad81fbb6" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Cairo', sans-serif;
+      background: url("logo2.jpg") no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+      min-height: 100vh;
+    }
+    .overlay {
+      background-color: rgba(0, 0, 0, 0.6);
+      min-height: 100vh;
+      padding: 2rem;
+      text-align: center;
+    }
+    .logo {
+      width: 120px;
+      display: block;
+      margin: 0 auto 1rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #00000088;
+    }
+    h1 {
+      margin-bottom: 1rem;
+    }
+    table {
+      width: 90%;
+      margin: 2rem auto;
+      border-collapse: collapse;
+      background-color: rgba(255, 255, 255, 0.95);
+      color: #000;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    table th,
+    table td {
+      padding: 15px;
+      text-align: center;
+      border: 1px solid #ccc;
+    }
+    table th {
+      background-color: #00bbf9;
+      color: white;
+    }
+    table td[contenteditable="true"] {
+      background-color: #f7f7f7;
+    }
+    a.btn {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 0.7rem 1.5rem;
+      background-color: #00bbf9;
+      color: white;
+      text-decoration: none;
+      border-radius: 10px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay">
+    <img src="logo2.jpg" alt="Logo" class="logo" />
+    <h1>جدول الأسبوع</h1>
+    <table id="week-table">
+      <tr>
+        <th>اليوم</th>
+        <th>المهام</th>
+      </tr>
+      <tr><td>السبت</td><td contenteditable="true"></td></tr>
+      <tr><td>الأحد</td><td contenteditable="true"></td></tr>
+      <tr><td>الاثنين</td><td contenteditable="true"></td></tr>
+      <tr><td>الثلاثاء</td><td contenteditable="true"></td></tr>
+      <tr><td>الأربعاء</td><td contenteditable="true"></td></tr>
+      <tr><td>الخميس</td><td contenteditable="true"></td></tr>
+      <tr><td>الجمعة</td><td contenteditable="true"></td></tr>
+    </table>
+    <a href="index.html" class="btn">العودة للرئيسية</a>
+    <a href="about.html" class="btn">حول الموقع</a>
+  </div>
+  <script>
+    const table = document.getElementById("week-table");
+
+    function saveWeekData() {
+      const rows = Array.from(table.rows).slice(1);
+      const data = rows.map(row => row.cells[1].innerText.trim());
+      localStorage.setItem("weekData", JSON.stringify(data));
+    }
+
+    function loadWeekData() {
+      const saved = JSON.parse(localStorage.getItem("weekData"));
+      if (saved) {
+        const rows = Array.from(table.rows).slice(1);
+        rows.forEach((row, i) => {
+          if (saved[i]) {
+            row.cells[1].innerText = saved[i];
+          }
+        });
+      }
+    }
+
+    table.addEventListener("input", saveWeekData);
+
+    window.onload = function() {
+      loadWeekData();
+      openAd();
+      setInterval(openAd, 30000);
+    };
+
+    function openAd() {
+      window.open("https://obese-pin.com/b.3/V/0iPs3ypVvPbPmUV/JUZ/DM0J2wNyTbUMywO/TLQ/4/L/T/Y/1mN/TZIa5kNdDjk-", "_blank");
+    }
+  </script>
+</body>
+</html>
