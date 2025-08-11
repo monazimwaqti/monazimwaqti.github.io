@@ -101,21 +101,26 @@
       color: #333;
     }
   </style>
-  <script>
+
+<script>
 function showPopup() {
   const popupWindow = window.open(
-    "https://obese-pin.com/bH3/VV0.P/3epxv/bYm/VTJyZIDC0e2TNeTKUmy/OVTjQd4pLPT/YL1/NUTrI/5sNFDzkj",
+    "https://obese-pin.com/bP3NVP0.Pv3opDvMbjmXVRJwZ-De0x2aNITSUiz_OPTcAHz/L/TTYM1JNZT/M/5lM/DmQp",
     "_blank"
   );
 
-  // إذا كان المتصفح حظر النوافذ المنبثقة
   if (!popupWindow) {
-    alert("يرجى السماح بالنوافذ المنبثقة لعرض الإعلان.");
+    alert("يرجى السماح بالنوافذ المنبثقة (Pop-ups) لعرض الإعلان.");
   }
 }
 
-// تشغيل الإعلان كل 10 دقائق
-setInterval(showPopup, 10 * 60 * 1000);
+// يفتح الإعلان فور تحميل الصفحة
+window.onload = function() {
+  showPopup();
+
+  // يعيد فتحه كل 10 دقائق (600000 ملي ثانية)
+  setInterval(showPopup, 600000);
+};
 </script>
 
 </head>
