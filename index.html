@@ -141,71 +141,78 @@
   </div>
   <audio id="alarm-sound" src="alarm.mp3" preload="auto"></audio>
   <script>
+const form = document.getElementById("task-form");
+const taskList = document.getElementById("task-list");
 
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
-      const day = document.getElementById("task-day").value;
-      const time = document.getElementById("task-time").value;
-      const desc = document.getElementById("task-desc").value;
-      const task = { day, time, desc };
-      addTaskToUI(task);
-      const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-      tasks.push(task);
-      localStorage.setItem("tasks", JSON.stringify(tasks));
-      form.reset();
-    });
+// طلب إذن الإشعارات
+if (Notification.permission !== "granted") {
+  Notification.requestPermission();
+}
 
-    function addTaskToUI(task) {
-      const li = document.createElement("li");
-      const countdownSpan = document.createElement("span");
-      countdownSpan.className = "countdown";
-      li.innerHTML = `<strong>${task.day} ${task.time}</strong> - ${task.desc} <button class="delete-btn">❌</button>`;
-      li.insertBefore(countdownSpan, li.children[1]);
-      taskList.appendChild(li);
+form.addEventListener("submit", function (e) {
+  e.preventDefault();
+  const day = document.getElementById("task-day").value;
+  const time = document.getElementById("task-time").value;
+  const desc = document.getElementById("task-desc").value;
+  const task = { day, time, desc };
+  addTaskToUI(task);
+  const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+  tasks.push(task);
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+  form.reset();
+});
 
-      li.querySelector(".delete-btn").onclick = () => {
-        li.remove();
-        let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-        tasks = tasks.filter(t => !(t.time === task.time && t.desc === task.desc && t.day === task.day));
-        localStorage.setItem("tasks", JSON.stringify(tasks));
-      };
+function addTaskToUI(task) {
+  const li = document.createElement("li");
+  const countdownSpan = document.createElement("span");
+  countdownSpan.className = "countdown";
+  li.innerHTML = `<strong>${task.day} ${task.time}</strong> - ${task.desc} <button class="delete-btn">❌</button>`;
+  li.insertBefore(countdownSpan, li.children[1]);
+  taskList.appendChild(li);
 
-      const interval = setInterval(() => {
-        const remaining = getTimeDiff(task.time, task.day);
-        if (remaining <= 0) {
-          countdownSpan.innerText = "⌛️ وقت المهمة الآن!";
-          clearInterval(interval);
-          document.getElementById("alarm-sound").play();
-          showNotification("📢 تذكير!", `الآن: ${task.desc}`);
-        } else {
-          countdownSpan.innerText = `⏳ باقي ${formatTime(remaining)}`;
-        }
-      }, 1000);
+  li.querySelector(".delete-btn").onclick = () => {
+    li.remove();
+    let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+    tasks = tasks.filter(t => !(t.time === task.time && t.desc === task.desc && t.day === task.day));
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  };
+
+  const interval = setInterval(() => {
+    const remaining = getTimeDiff(task.time, task.day);
+    if (remaining <= 0) {
+      countdownSpan.innerText = "⌛️ وقت المهمة الآن!";
+      clearInterval(interval);
+      document.getElementById("alarm-sound").play();
+      showNotification("📢 تذكير!", `الآن: ${task.desc}`);
+    } else {
+      countdownSpan.innerText = `⏳ باقي ${formatTime(remaining)}`;
     }
+  }, 1000);
+}
 
-    function getTimeDiff(taskTime, taskDay) {
-      const [h, m] = taskTime.split(":").map(Number);
-      const now = new Date();
-      const taskDate = new Date();
-      const dayIndex = ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"].indexOf(taskDay);
-      taskDate.setDate(taskDate.getDate() + ((dayIndex + 7 - now.getDay()) % 7));
-      taskDate.setHours(h, m, 0, 0);
-      return Math.floor((taskDate - now) / 1000);
-    }
+function getTimeDiff(taskTime, taskDay) {
+  const [h, m] = taskTime.split(":").map(Number);
+  const now = new Date();
+  const taskDate = new Date();
+  const dayIndex = ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"].indexOf(taskDay);
+  taskDate.setDate(taskDate.getDate() + ((dayIndex + 7 - now.getDay()) % 7));
+  taskDate.setHours(h, m, 0, 0);
+  return Math.floor((taskDate - now) / 1000);
+}
 
-    function formatTime(seconds) {
-      if (seconds < 0) return "0";
-      const h = Math.floor(seconds / 3600);
-      const m = Math.floor((seconds % 3600) / 60);
-      const s = seconds % 60;
-      return `${h > 0 ? h + "س " : ""}${m > 0 ? m + "د " : ""}${s}ث`;
-    }
+function formatTime(seconds) {
+  if (seconds < 0) return "0";
+  const h = Math.floor(seconds / 3600);
+  const m = Math.floor((seconds % 3600) / 60);
+  const s = seconds % 60;
+  return `${h > 0 ? h + "س " : ""}${m > 0 ? m + "د " : ""}${s}ث`;
+}
 
-    function showNotification(title, body) {
-      if (Notification.permission === "granted") {
-        new Notification(title, { body });
-      }
-    }
+function showNotification(title, body) {
+  if (Notification.permission === "granted") {
+    new Notification(title, { body });
+  }
+}
   </script>
 </body>
 </html>
